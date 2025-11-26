@@ -1,0 +1,74 @@
+<div class="min-h-screen bg-suap-light p-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <div class="lg:col-span-1 space-y-4">
+      <h3 class="text-xl font-semibold text-suap mb-3">TCCs Agendados</h3>
+      
+      <a routerLink="/cadastro" class="block w-full text-center bg-suap text-white px-4 py-2 rounded hover:bg-suap-dark transition duration-150">
+        + Cadastrar Novo TCC
+      </a>
+
+      <div class="bg-white rounded-lg shadow p-6">
+        <div *ngIf="loading()" class="text-gray-500">Carregando...</div>
+        <div class="text-sm text-red-600 mb-2" *ngIf="error()">{{ error() }}</div>
+
+        <div class="space-y-3">
+          <div *ngFor="let item of tccs()" 
+               class="p-3 border rounded hover:shadow cursor-pointer" 
+               [ngClass]="{'bg-suap-light border-suap': item.id === selectedTccId()}"
+               (click)="selectTcc(item.id)">
+            <div class="font-semibold">{{ item.title }}</div>
+            <div class="text-sm text-gray-600">{{ item.studentName }} — {{ item.advisorName }}</div>
+            <div class="text-xs text-gray-500">{{ formatDate(item.scheduledDate) }} {{ item.scheduledTime || '' }}</div>
+          </div>
+        </div>
+        
+        <div *ngIf="tccs().length === 0 && !loading()" class="text-gray-500 text-sm mt-4">Nenhum TCC agendado.</div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 bg-white rounded-lg shadow p-6 min-h-80">
+      <h3 class="text-xl font-semibold text-suap mb-3 border-b pb-2">Detalhes do TCC Selecionado</h3>
+
+      <div *ngIf="!selectedTcc()">
+        <p class="text-gray-500 mt-4">Selecione um TCC da lista para visualizar os detalhes completos.</p>
+      </div>
+
+      <div *ngIf="selectedTcc()" class="p-3">
+        <h4 class="font-bold text-lg text-suap">{{ selectedTcc()?.title }}</h4>
+        <div class="text-sm text-gray-700 mt-3 space-y-1">
+          <div><span class="font-medium">Orientando:</span> {{ selectedTcc()?.studentName }}</div>
+          <div><span class="font-medium">Matrícula:</span> {{ selectedTcc()?.studentId }}</div>
+          <div><span class="font-medium">Orientador:</span> {{ selectedTcc()?.advisorName }}</div>
+          
+          <div class="mt-2"><span class="font-medium">Status:</span> 
+            <span class="text-white text-xs font-bold px-2 py-1 rounded" 
+                  [ngClass]="{
+                    'bg-green-600': selectedTcc()?.status === 'finalizado',
+                    'bg-blue-600': selectedTcc()?.status === 'marcada',
+                    'bg-yellow-600': selectedTcc()?.status === 'cadastrada'
+                  }">
+                  {{ selectedTcc()?.status | uppercase }}
+            </span>
+          </div>
+          <div><span class="font-medium">Modalidade:</span> {{ selectedTcc()?.modality || '-' }}</div>
+          <div><span class="font-medium">Data/Hora:</span> {{ formatDate(selectedTcc()?.scheduledDate) }} {{ selectedTcc()?.scheduledTime || '-' }}</div>
+          
+          <div class="mt-4">
+            <span class="font-medium">Resumo:</span> 
+            <p class="text-sm italic">{{ selectedTcc()?.summary || 'N/A' }}</p>
+          </div>
+          
+          <div class="mt-4">
+            <span class="font-medium">Banca:</span> 
+            <p class="text-sm">{{ selectedTcc()?.committee?.join(', ') || 'Não definida' }}</p>
+          </div>
+          
+          <div class="mt-4">
+            <button class="bg-suap text-white px-3 py-1 text-sm rounded hover:bg-suap-dark">Gerar Ata (RF301)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

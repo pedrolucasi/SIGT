@@ -1,0 +1,11 @@
+/* src/app/components/dashboard-tcc/dashboard-tcc.component.css */
+:host {
+    --suap-primary: #0A5EA8; /* Azul principal do SUAP */
+    --suap-dark: #084f8f;
+    --suap-light-bg: #e8f3fb; 
+}
+
+.text-suap{ color: var(--suap-primary); }
+.bg-suap{ background-color: var(--suap-primary); }
+.bg-suap-dark{ background-color: var(--suap-dark); }
+.bg-suap-light{ background-color: var(--suap-light-bg); }
