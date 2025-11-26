@@ -1,0 +1,12 @@
+:root{
+  --suap: #0A5EA8;
+  --suap-dark: #084f8f;
+}
+
+.text-suap{ color: var(--suap); }
+.bg-suap{ background-color: var(--suap); }
+.bg-suap-dark{ background-color: var(--suap-dark); }
+.bg-suap-light{ background-color: #e8f3fb; }
+
+/* small adjustments for inputs to look nice with Tailwind */
+input, textarea, select { outline: none; }
