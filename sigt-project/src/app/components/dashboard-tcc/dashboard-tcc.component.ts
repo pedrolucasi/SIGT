@@ -1,7 +1,6 @@
 import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
 import { TccStore } from '../../store/tcc-store';
 import { TCC } from '../../model/tcc-model';
 
@@ -42,6 +41,10 @@ export class DashboardTccComponent implements OnInit {
       }
     });
   }
+
+  
+
+
 
   ngOnInit(): void {
     this.store.loadTccs();
