@@ -56,21 +56,33 @@ Este projeto foi desenvolvido como requisito da disciplina **Programação para 
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/pedrolucasi.png" width="110" style="border-radius: 50%;" /><br>
-      <sub><b>pedrolucasi</b></sub>
+      <a href="https://github.com/pedrolucasi" target="_blank">
+        <img src="https://github.com/pedrolucasi.png" width="110" style="border-radius: 50%;" />
+      </a>
+      <br>
+      <sub><b>@pedrolucasi</b></sub>
     </td>
     <td align="center">
-      <img src="https://github.com/josejunior07.png" width="110" style="border-radius: 50%;" /><br>
-      <sub><b>josejunior07</b></sub>
+      <a href="https://github.com/josejunior07" target="_blank">
+        <img src="https://github.com/josejunior07.png" width="110" style="border-radius: 50%;" />
+      </a>
+      <br>
+      <sub><b>@josejunior07</b></sub>
     </td>
     <td align="center">
-      <img src="https://github.com/luizalima3.png" width="110" style="border-radius: 50%;" /><br>
-      <sub><b>luizalima3</b></sub>
+      <a href="https://github.com/luizalima3" target="_blank">
+        <img src="https://github.com/luizalima3.png" width="110" style="border-radius: 50%;" />
+      </a>
+      <br>
+      <sub><b>@luizalima3</b></sub>
     </td>
   </tr>
 </table>
 
 </div>
+
+
+
 
 
 
