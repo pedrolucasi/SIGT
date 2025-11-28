@@ -17,13 +17,9 @@ Este projeto foi desenvolvido como requisito da disciplina **Programação para 
 ## 🛠️ Tecnologias Utilizadas
 
 ![Angular](https://img.shields.io/badge/Angular-red?logo=angular&logoColor=white)
-
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white)
-
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38bdf8?logo=tailwindcss&logoColor=white)
-
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)
 
 
@@ -52,6 +48,7 @@ Este projeto foi desenvolvido como requisito da disciplina **Programação para 
     </td>
   </tr>
 </table>
+
 
 
 
