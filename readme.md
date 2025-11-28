@@ -17,13 +17,14 @@ Este projeto foi desenvolvido como requisito da disciplina **Programação para 
 ## 📸 Telas 
 
 <p align="center">
-  <img src="./docs/screenshots/dashboard.png" width="45%" alt="Tela de Dashboard do sistema">
-  <img src="./docs/screenshots/detalhes.png" width="45%" alt="Tela de Detalhes do TCC">
+  <img src="./telas/imagens/dashboard.png" width="45%">
+  <img src="./telas/imagens/detalhes.png" width="45%">
 </p>
 
 <p align="center">
-  <img src="./docs/screenshots/cadastro.png" width="45%" alt="Tela de Cadastro de TCC">
+  <img src="./telas/imagens/cadastro.png" width="70%">
 </p>
+
 
 
 ## 🛠️ Tecnologias Utilizadas
@@ -62,6 +63,7 @@ Este projeto foi desenvolvido como requisito da disciplina **Programação para 
     </td>
   </tr>
 </table>
+
 
 
 
