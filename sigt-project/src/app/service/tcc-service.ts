@@ -1,45 +1,52 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+// tcc-service.ts
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TCC } from '../model/tcc-model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TccService {
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/tccs`;
 
-  private supabaseUrl = 'https://lsjvgwtnzcqydrqbgquw.supabase.co/rest/v1';
-  private apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanZnd3RuemNxeWRycWJncXV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwOTYwMDcsImV4cCI6MjA3OTY3MjAwN30.77q8_OfEm1o-KRKTYZyx0StvIkeLM1FKbbF4eQ6qRC4';
+  getTccs(params?: { page?: number; size?: number; status?: string }): Observable<TCC[]> {
+    let httpParams = new HttpParams();
+    
+    if (params?.page) httpParams = httpParams.set('page', params.page.toString());
+    if (params?.size) httpParams = httpParams.set('size', params.size.toString());
+    if (params?.status) httpParams = httpParams.set('status', params.status);
 
-  private headers = new HttpHeaders({
-    apikey: this.apiKey,
-    Authorization: `Bearer ${this.apiKey}`,
-    'Content-Type': 'application/json'
-  });
-
-  constructor(private http: HttpClient) {}
-
-  getTccs(): Observable<TCC[]> {
-    return this.http.get<TCC[]>(`${this.supabaseUrl}/tccs?select=*`, {
-      headers: this.headers
-    });
+    return this.http.get<TCC[]>(this.apiUrl, { params: httpParams });
   }
 
-  createTcc(data: TCC): Observable<any> {
-    return this.http.post(`${this.supabaseUrl}/tccs`, data, {
-      headers: this.headers
-    });
+  getTccById(id: number): Observable<TCC> {
+    return this.http.get<TCC>(`${this.apiUrl}/${id}`);
   }
 
-  updateTcc(id: number, data: Partial<TCC>): Observable<any> {
-    return this.http.patch(`${this.supabaseUrl}/tccs?id=eq.${id}`, data, {
-      headers: this.headers
-    });
+  createTcc(tcc: TCC): Observable<TCC> {
+    return this.http.post<TCC>(this.apiUrl, tcc);
   }
 
-  deleteTcc(id: number): Observable<any> {
-    return this.http.delete(`${this.supabaseUrl}/tccs?id=eq.${id}`, {
-      headers: this.headers
-    });
+  updateTcc(id: number, tcc: TCC): Observable<TCC> {
+    return this.http.put<TCC>(`${this.apiUrl}/${id}`, tcc);
+  }
+
+  patchTcc(id: number, partialTcc: Partial<TCC>): Observable<TCC> {
+    return this.http.patch<TCC>(`${this.apiUrl}/${id}`, partialTcc);
+  }
+
+  deleteTcc(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getTccsByStatus(status: string): Observable<TCC[]> {
+    return this.http.get<TCC[]>(`${this.apiUrl}/status/${status}`);
+  }
+
+  getTccsByAdvisor(advisorName: string): Observable<TCC[]> {
+    return this.http.get<TCC[]>(`${this.apiUrl}/orientador/${encodeURIComponent(advisorName)}`);
   }
 }
