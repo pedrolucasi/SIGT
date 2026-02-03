@@ -1,16 +1,15 @@
-// src/app/service/tcc-service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TCC } from '../model/tcc-model';
-import { environment } from '../../environments/environment'; // ← Agora vai funcionar
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TccService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/tccs`; // ← Usando environment
+  private apiUrl = `${environment.apiUrl}/tccs`;
 
   getTccs(params?: { page?: number; size?: number; status?: string }): Observable<TCC[]> {
     let httpParams = new HttpParams();

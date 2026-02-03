@@ -1,4 +1,3 @@
-// tcc-store.ts
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { TccService } from '../service/tcc-service';
 import { TCC } from '../model/tcc-model';
@@ -63,10 +62,10 @@ export class TccStore {
     this.setError(null);
 
     this.tccService.getTccs({ page, size, status }).pipe(
-      tap(response => {
+      tap((tccs: TCC[]) => {
         this.state.update(state => ({
           ...state,
-          tccs: response,
+          tccs: tccs,
           pagination: {
             ...state.pagination,
             page: page || 0,
@@ -77,7 +76,7 @@ export class TccStore {
       catchError(error => {
         this.setError('Erro ao carregar TCCs. Tente novamente.');
         console.error('Error loading TCCs:', error);
-        return of([]);
+        return of([] as TCC[]);
       }),
       finalize(() => this.setLoading(false))
     ).subscribe();
@@ -149,30 +148,28 @@ export class TccStore {
     ).subscribe();
   }
 
-updateTccStatus(id: number, status: string) {
-  this.setLoading(true);
-  
-  const statusTyped = status as 'cadastrada' | 'marcada' | 'apresentada' | 'finalizada' | 'cancelada';
-  
-  this.tccService.patchTcc(id, { status: statusTyped }).pipe(
-    tap(updatedTcc => {
-      this.state.update(state => ({
-        ...state,
-        tccs: state.tccs.map(t => t.id === id ? updatedTcc : t),
-        selectedTcc: updatedTcc
-      }));
-      this.setSuccessMessage('Status atualizado!');
-      
-      setTimeout(() => this.setSuccessMessage(null), 3000);
-    }),
-    catchError(error => {
-      this.setError('Erro ao atualizar status.');
-      console.error('Error updating status:', error);
-      return of(null);
-    }),
-    finalize(() => this.setLoading(false))
-  ).subscribe();
-}
+  updateTccStatus(id: number, status: string) {
+    this.setLoading(true);
+    
+    this.tccService.patchTcc(id, { status }).pipe(
+      tap(updatedTcc => {
+        this.state.update(state => ({
+          ...state,
+          tccs: state.tccs.map(t => t.id === id ? updatedTcc : t),
+          selectedTcc: updatedTcc
+        }));
+        this.setSuccessMessage('Status atualizado!');
+        
+        setTimeout(() => this.setSuccessMessage(null), 3000);
+      }),
+      catchError(error => {
+        this.setError('Erro ao atualizar status.');
+        console.error('Error updating status:', error);
+        return of(null);
+      }),
+      finalize(() => this.setLoading(false))
+    ).subscribe();
+  }
 
   removeTcc(id: number) {
     if (!confirm('Tem certeza que deseja excluir este TCC?')) return;
@@ -204,14 +201,14 @@ updateTccStatus(id: number, status: string) {
     this.setLoading(true);
     this.setError(null);
 
-    this.tccService.getTccsByStatus(status).pipe(
-      tap(tccs => {
+    this.tccService.getTccs({ status }).pipe(
+      tap((tccs: TCC[]) => {
         this.state.update(state => ({ ...state, tccs }));
       }),
       catchError(error => {
         this.setError('Erro ao filtrar TCCs.');
         console.error('Error filtering TCCs:', error);
-        return of([]);
+        return of([] as TCC[]);
       }),
       finalize(() => this.setLoading(false))
     ).subscribe();

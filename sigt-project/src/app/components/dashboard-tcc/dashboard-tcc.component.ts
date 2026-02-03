@@ -1,5 +1,4 @@
-// dashboard-tcc.component.ts
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import { Component, computed, effect, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TccStore } from '../../store/tcc-store';
@@ -48,6 +47,14 @@ export class DashboardTccComponent implements OnInit {
     });
   });
 
+  constructor() {
+    effect(() => {
+      if (this.error()) {
+        setTimeout(() => this.store.clearError(), 3000);
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.store.loadTccs();
   }
@@ -91,6 +98,7 @@ export class DashboardTccComponent implements OnInit {
   }
 
   search() {
+    // Filtragem é feita no computed filteredTccs
   }
 
   formatDate(date?: string): string {
@@ -104,7 +112,7 @@ export class DashboardTccComponent implements OnInit {
 
   formatTime(time?: string): string {
     if (!time) return '-';
-    return time.substring(0, 5);
+    return time.substring(0, 5); // Formato HH:mm
   }
 
   clearFilters() {

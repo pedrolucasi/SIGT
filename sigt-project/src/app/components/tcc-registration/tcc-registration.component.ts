@@ -1,5 +1,4 @@
-// src/app/components/tcc-registration/tcc-registration.component.ts
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -20,10 +19,8 @@ export class TccRegistrationComponent {
 
   form: FormGroup;
   
-  // ADICIONE ESTA LINHA:
   success = signal<boolean>(false);
   
-  // Signals do store
   loading = this.store.loading;
   error = this.store.error;
   successMessage = this.store.successMessage;
@@ -52,6 +49,18 @@ export class TccRegistrationComponent {
       scheduledTime: [''],
       location: [''],
       committee: [''],
+    });
+
+    // Effect para observar a mensagem de sucesso
+    effect(() => {
+      const msg = this.store.successMessage();
+      if (msg) {
+        this.success.set(true);
+        // Redireciona após 3 segundos
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 3000);
+      }
     });
   }
 
@@ -94,23 +103,7 @@ export class TccRegistrationComponent {
         : [],
     };
 
-    // Usa o store para adicionar
     this.store.addTcc(payload);
-
-    // ADICIONE ESTAS LINHAS:
-    // Quando o store tiver sucesso, atualize o signal local
-    this.store.successMessage.subscribe(msg => {
-      if (msg) {
-        this.success.set(true);
-      }
-    });
-
-    // Se sucesso, redireciona após 2 segundos
-    setTimeout(() => {
-      if (!this.error() && this.success()) {
-        this.router.navigate(['/dashboard']);
-      }
-    }, 2000);
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

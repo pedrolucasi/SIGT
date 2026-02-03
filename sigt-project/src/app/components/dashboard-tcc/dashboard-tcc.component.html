@@ -131,7 +131,7 @@
 
           <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center">
             <span class="text-xs text-gray-400">
-              #{{ tcc.id }} • {{ tcc.createdAt ? (tcc.createdAt | date:'dd/MM/yyyy') : 'N/A' }}
+              #{{ tcc.id }} • {{ tcc.created_at ? (tcc.created_at | date:'dd/MM/yyyy') : 'N/A' }}
             </span>
             <button
               (click)="deleteTcc(tcc.id!); $event.stopPropagation()"
