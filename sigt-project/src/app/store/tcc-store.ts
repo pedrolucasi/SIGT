@@ -149,28 +149,30 @@ export class TccStore {
     ).subscribe();
   }
 
-  updateTccStatus(id: number, status: string) {
-    this.setLoading(true);
-    
-    this.tccService.patchTcc(id, { status }).pipe(
-      tap(updatedTcc => {
-        this.state.update(state => ({
-          ...state,
-          tccs: state.tccs.map(t => t.id === id ? updatedTcc : t),
-          selectedTcc: updatedTcc
-        }));
-        this.setSuccessMessage('Status atualizado!');
-        
-        setTimeout(() => this.setSuccessMessage(null), 3000);
-      }),
-      catchError(error => {
-        this.setError('Erro ao atualizar status.');
-        console.error('Error updating status:', error);
-        return of(null);
-      }),
-      finalize(() => this.setLoading(false))
-    ).subscribe();
-  }
+updateTccStatus(id: number, status: string) {
+  this.setLoading(true);
+  
+  const statusTyped = status as 'cadastrada' | 'marcada' | 'apresentada' | 'finalizada' | 'cancelada';
+  
+  this.tccService.patchTcc(id, { status: statusTyped }).pipe(
+    tap(updatedTcc => {
+      this.state.update(state => ({
+        ...state,
+        tccs: state.tccs.map(t => t.id === id ? updatedTcc : t),
+        selectedTcc: updatedTcc
+      }));
+      this.setSuccessMessage('Status atualizado!');
+      
+      setTimeout(() => this.setSuccessMessage(null), 3000);
+    }),
+    catchError(error => {
+      this.setError('Erro ao atualizar status.');
+      console.error('Error updating status:', error);
+      return of(null);
+    }),
+    finalize(() => this.setLoading(false))
+  ).subscribe();
+}
 
   removeTcc(id: number) {
     if (!confirm('Tem certeza que deseja excluir este TCC?')) return;

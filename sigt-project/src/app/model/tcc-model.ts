@@ -1,3 +1,4 @@
+// src/app/model/tcc-model.ts
 export interface TCC {
   id?: number;
   studentName: string;
@@ -6,11 +7,10 @@ export interface TCC {
   title: string;
   summary?: string;
   modality: 'presencial' | 'remoto' | 'hibrido';
-  scheduledDate?: string; 
+  scheduledDate?: string;
   scheduledTime?: string;
   location?: string;
   committee?: string[];
-  status: 'cadastrada' | 'marcada' | 'apresentada' | 'finalizada' | 'cancelada';
-  createdAt?: string;
-  updatedAt?: string;
+  status: 'cadastrada' | 'marcada' | 'apresentada' | 'finalizada' | 'cancelada' | string;
+  created_at?: string;
 }

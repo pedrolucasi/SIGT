@@ -1,3 +1,4 @@
+// src/app/components/tcc-registration/tcc-registration.component.ts
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -18,6 +19,9 @@ export class TccRegistrationComponent {
   private router = inject(Router);
 
   form: FormGroup;
+  
+  // ADICIONE ESTA LINHA:
+  success = signal<boolean>(false);
   
   // Signals do store
   loading = this.store.loading;
@@ -68,7 +72,6 @@ export class TccRegistrationComponent {
 
     const value = this.form.value;
 
-    // Validação da data
     if (value.scheduledDate && !this.isFutureDate(value.scheduledDate)) {
       this.form.get('scheduledDate')?.setErrors({ notFuture: true });
       this.markFormGroupTouched(this.form);
@@ -91,10 +94,20 @@ export class TccRegistrationComponent {
         : [],
     };
 
+    // Usa o store para adicionar
     this.store.addTcc(payload);
 
+    // ADICIONE ESTAS LINHAS:
+    // Quando o store tiver sucesso, atualize o signal local
+    this.store.successMessage.subscribe(msg => {
+      if (msg) {
+        this.success.set(true);
+      }
+    });
+
+    // Se sucesso, redireciona após 2 segundos
     setTimeout(() => {
-      if (!this.error() && this.successMessage()) {
+      if (!this.error() && this.success()) {
         this.router.navigate(['/dashboard']);
       }
     }, 2000);

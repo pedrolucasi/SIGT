@@ -1,16 +1,16 @@
-// tcc-service.ts
+// src/app/service/tcc-service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TCC } from '../model/tcc-model';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment'; // ← Agora vai funcionar
 
 @Injectable({
   providedIn: 'root'
 })
 export class TccService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/tccs`;
+  private apiUrl = `${environment.apiUrl}/tccs`; // ← Usando environment
 
   getTccs(params?: { page?: number; size?: number; status?: string }): Observable<TCC[]> {
     let httpParams = new HttpParams();
@@ -40,13 +40,5 @@ export class TccService {
 
   deleteTcc(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-
-  getTccsByStatus(status: string): Observable<TCC[]> {
-    return this.http.get<TCC[]>(`${this.apiUrl}/status/${status}`);
-  }
-
-  getTccsByAdvisor(advisorName: string): Observable<TCC[]> {
-    return this.http.get<TCC[]>(`${this.apiUrl}/orientador/${encodeURIComponent(advisorName)}`);
   }
 }
