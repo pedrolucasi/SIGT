@@ -6,10 +6,11 @@ export interface TCC {
   title: string;
   summary?: string;
   modality: 'presencial' | 'remoto' | 'hibrido';
-  scheduledDate?: string;
+  scheduledDate?: string; 
   scheduledTime?: string;
   location?: string;
   committee?: string[];
-  status: string;
-  created_at?: string;
+  status: 'cadastrada' | 'marcada' | 'apresentada' | 'finalizada' | 'cancelada';
+  createdAt?: string;
+  updatedAt?: string;
 }
